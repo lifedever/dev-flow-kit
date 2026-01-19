@@ -19,7 +19,6 @@ const state = reactive<State>({
 
 const saveTipVisible = ref(false);
 
-// 辅助函数
 const getCycleId = (resetDay: number) => {
   const now = new Date();
   let year = now.getFullYear();
@@ -49,7 +48,6 @@ const countDays = (start: Date, end: Date, excludeWeekends: boolean) => {
   return count;
 };
 
-// 计算属性
 const computedData = computed(() => {
   const now = new Date();
   const year = now.getFullYear();
@@ -98,7 +96,6 @@ const computedData = computed(() => {
   };
 });
 
-// Action
 const adjustSpend = (amount: number) => {
   state.currentSpend = Math.max(
     0,
@@ -106,13 +103,9 @@ const adjustSpend = (amount: number) => {
   );
 };
 
-// 持久化
 const loadState = () => {
   const saved = localStorage.getItem("cursor_flow_v3");
-  if (saved) {
-    Object.assign(state, JSON.parse(saved));
-  }
-  // Check cycle
+  if (saved) Object.assign(state, JSON.parse(saved));
   const currentId = getCycleId(state.resetDay);
   if (state.lastCycleId && state.lastCycleId !== currentId) {
     state.currentSpend = 0;
@@ -126,144 +119,116 @@ const saveState = () => {
   saveTipVisible.value = true;
   setTimeout(() => {
     saveTipVisible.value = false;
-  }, 1500);
+  }, 1200);
 };
 
-onMounted(() => {
-  loadState();
-});
-
-watch(state, () => {
-  saveState();
-});
+onMounted(() => loadState());
+watch(state, () => saveState());
 </script>
 
 <template>
-  <div class="flow-container">
-    <div class="header-nav">
-      <router-link to="/">&larr; Back</router-link>
+  <div class="page">
+    <div class="topbar">
+      <router-link to="/" class="back">← 返回</router-link>
+      <div class="velocity">
+        <span>{{
+          computedData.status === "fire"
+            ? "🔥"
+            : computedData.status === "ice"
+              ? "❄️"
+              : "⚡"
+        }}</span>
+      </div>
     </div>
 
-    <div class="card-container">
-      <header>
+    <div class="panel">
+      <div class="header">
         <h1>Cursor Flow</h1>
-        <p class="subtitle">Ultra Plan 额度监控</p>
-        <div class="velocity-badge">
-          <span class="emoji">{{
-            computedData.status === "fire"
-              ? "🔥"
-              : computedData.status === "ice"
-                ? "❄️"
-                : "⚡"
-          }}</span>
-          <span class="velocity-label">燃尽率</span>
-        </div>
-      </header>
-
-      <div
-        class="status-badge"
-        :class="computedData.isOver ? 'status-over' : 'status-on-track'"
-      >
-        {{ computedData.isOver ? "消耗过快" : "额度充裕" }}
+        <span class="tag" :class="computedData.isOver ? 'danger' : 'success'">
+          {{ computedData.isOver ? "超支" : "正常" }}
+        </span>
       </div>
 
-      <div class="stats-grid">
-        <div
-          class="stat-card"
-          :class="{ 'card-fire': computedData.status === 'fire' }"
-        >
-          <div class="stat-label">已使用</div>
-          <div class="stat-value">${{ state.currentSpend.toFixed(2) }}</div>
+      <div class="stats">
+        <div class="stat" :class="{ warning: computedData.status === 'fire' }">
+          <span class="label">已用</span>
+          <span class="value">${{ state.currentSpend.toFixed(2) }}</span>
         </div>
-        <div class="stat-card">
-          <div class="stat-label">理想支出</div>
-          <div class="stat-value">
-            ${{ computedData.idealSpend.toFixed(2) }}
-          </div>
+        <div class="stat">
+          <span class="label">理想</span>
+          <span class="value">${{ computedData.idealSpend.toFixed(2) }}</span>
+        </div>
+        <div class="stat">
+          <span class="label">剩余天数</span>
+          <span class="value">{{ computedData.remainingDays }}</span>
         </div>
       </div>
 
-      <div class="progress-box">
-        <div class="progress-labels">
-          <span>{{
-            state.excludeWeekends ? "消耗进度 (工作日)" : "消耗进度 (自然日)"
-          }}</span>
+      <div class="progress-wrap">
+        <div class="progress-bar">
+          <div
+            class="marker"
+            :style="{ left: `${computedData.cycleProgress * 100}%` }"
+          ></div>
+          <div
+            class="fill"
+            :class="computedData.isOver ? 'danger' : 'success'"
+            :style="{
+              width: `${Math.min((state.currentSpend / state.totalQuota) * 100, 100)}%`,
+            }"
+          ></div>
+        </div>
+        <div class="progress-info">
+          <span>{{ state.excludeWeekends ? "工作日" : "自然日" }}</span>
           <span
             >{{
               ((state.currentSpend / state.totalQuota) * 100).toFixed(1)
             }}%</span
           >
         </div>
-        <div class="progress-bar">
-          <div
-            class="ideal-marker"
-            :style="{ left: `${computedData.cycleProgress * 100}%` }"
-          ></div>
-          <div
-            class="progress-fill"
-            :style="{
-              width: `${Math.min((state.currentSpend / state.totalQuota) * 100, 100)}%`,
-              backgroundColor:
-                state.currentSpend > computedData.idealSpend
-                  ? 'var(--danger)'
-                  : 'var(--success)',
-            }"
-          ></div>
-        </div>
       </div>
 
-      <div class="input-group">
-        <label>更新已用金额 ($)</label>
-        <input type="number" v-model="state.currentSpend" step="0.01" />
-        <div class="quick-actions">
-          <button class="btn-quick" @click="adjustSpend(1)">+$1</button>
-          <button class="btn-quick" @click="adjustSpend(5)">+$5</button>
-          <button class="btn-quick" @click="adjustSpend(10)">+$10</button>
-          <button class="btn-quick" @click="adjustSpend(-1)">-$1</button>
+      <div class="input-section">
+        <label>当前消费 ($)</label>
+        <div class="input-row">
+          <input type="number" v-model="state.currentSpend" step="0.01" />
+          <div class="quick-btns">
+            <button @click="adjustSpend(1)">+1</button>
+            <button @click="adjustSpend(5)">+5</button>
+            <button @click="adjustSpend(10)">+10</button>
+            <button @click="adjustSpend(-1)">-1</button>
+          </div>
         </div>
-        <div class="save-tip" :style="{ opacity: saveTipVisible ? 1 : 0 }">
-          ✓ 已保存
-        </div>
+        <span class="tip" :class="{ show: saveTipVisible }">已保存</span>
       </div>
 
-      <div class="advice-box">
-        <div class="advice-title">
-          {{
-            computedData.isOver
-              ? `当前预计超支 $${computedData.diff.toFixed(2)}`
-              : `剩余结余额度 $${computedData.diff.toFixed(2)}`
-          }}
-        </div>
-        <div class="advice-text">
-          剩余 {{ computedData.remainingDays }} 天，每日可用预算 ${{
-            computedData.dailySafe.toFixed(2)
-          }}。
-        </div>
+      <div class="advice" :class="computedData.isOver ? 'danger' : ''">
+        <strong>{{
+          computedData.isOver
+            ? `超支 $${computedData.diff.toFixed(2)}`
+            : `结余 $${computedData.diff.toFixed(2)}`
+        }}</strong>
+        <span>建议每日预算 ${{ computedData.dailySafe.toFixed(2) }}</span>
       </div>
 
-      <div class="config-panel">
-        <div class="config-row">
-          <div style="flex: 1">
-            <label>每月重置日</label>
+      <div class="config">
+        <div class="row">
+          <div class="field">
+            <label>重置日</label>
             <input type="number" v-model="state.resetDay" min="1" max="31" />
           </div>
-          <div style="flex: 1">
-            <label>总额 ($)</label>
+          <div class="field">
+            <label>月总额 ($)</label>
             <input type="number" v-model="state.totalQuota" />
           </div>
         </div>
-
         <div
-          class="switch-row"
+          class="toggle-row"
           @click="state.excludeWeekends = !state.excludeWeekends"
         >
-          <div>
-            <span class="switch-label">仅计算工作日</span>
-            <span class="switch-sublabel">跳过周末，平摊更科学</span>
-          </div>
-          <div class="switch">
-            <input type="checkbox" :checked="state.excludeWeekends" />
-            <span class="slider"></span>
+          <span>仅工作日</span>
+          <div class="toggle" :class="{ on: state.excludeWeekends }">
+            <div class="knob"></div>
           </div>
         </div>
       </div>
@@ -272,294 +237,268 @@ watch(state, () => {
 </template>
 
 <style scoped>
-.flow-container {
+.page {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 24px 16px;
+}
+
+.topbar {
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
-  padding: 2rem 1rem;
+  margin-bottom: 16px;
 }
 
-.header-nav {
-  width: 100%;
-  max-width: 500px;
-  text-align: left;
-  margin-bottom: 1.5rem;
-}
-
-.header-nav a {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.9rem;
+.back {
+  font-size: 13px;
   color: var(--text-dim);
-  text-decoration: none;
 }
 
-.card-container {
-  width: 100%;
-  max-width: 500px;
+.velocity {
+  font-size: 18px;
+}
+
+.panel {
   background: var(--card-bg);
-  border-radius: 24px;
-  padding: 2.5rem;
-  box-shadow:
-    0 10px 25px -5px rgba(0, 0, 0, 0.04),
-    0 8px 10px -6px rgba(0, 0, 0, 0.02);
   border: 1px solid var(--border);
-  position: relative;
+  border-radius: 12px;
+  padding: 20px;
 }
 
-header {
-  text-align: center;
-  margin-bottom: 2rem;
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
 }
 
-h1 {
-  font-size: 1.75rem;
-  font-weight: 800;
-  margin-bottom: 0.5rem;
-  color: var(--text);
+.header h1 {
+  font-size: 18px;
+  font-weight: 700;
   letter-spacing: -0.02em;
 }
 
-.subtitle {
-  font-size: 0.95rem;
-  color: var(--text-dim);
+.tag {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 4px;
 }
-
-.velocity-badge {
-  position: absolute;
-  top: 1.5rem;
-  right: 1.5rem;
-  background: #f8fafc;
-  padding: 0.5rem 0.75rem;
-  border-radius: 12px;
-  border: 1px solid var(--border);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.emoji {
-  font-size: 1.25rem;
-}
-.velocity-label {
-  font-size: 0.65rem;
-  color: var(--text-dim);
-  margin-top: 0.25rem;
-  font-weight: 700;
-  text-transform: uppercase;
-}
-
-.status-badge {
-  display: inline-block;
-  padding: 0.4rem 1rem;
-  border-radius: 100px;
-  font-size: 0.8rem;
-  font-weight: 700;
-  margin-bottom: 1.5rem;
-}
-.status-on-track {
+.tag.success {
   background: #ecfdf5;
   color: #059669;
 }
-.status-over {
+.tag.danger {
   background: #fef2f2;
   color: #dc2626;
 }
 
-.stats-grid {
+.stats {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-  margin-bottom: 2rem;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 16px;
 }
 
-.stat-card {
-  background: #f8fafc;
-  padding: 1.25rem;
-  border-radius: 16px;
-  text-align: center;
+.stat {
+  background: #fafafa;
   border: 1px solid var(--border);
-  transition: all 0.2s ease;
+  border-radius: 8px;
+  padding: 10px;
+  text-align: center;
 }
 
-.card-fire {
-  background: #fff5f5;
-  border-color: #feb2b2;
+.stat.warning {
+  background: #fef2f2;
+  border-color: #fecaca;
 }
 
-.stat-label {
-  font-size: 0.7rem;
+.stat .label {
+  display: block;
+  font-size: 10px;
   color: var(--text-dim);
-  margin-bottom: 0.5rem;
   text-transform: uppercase;
-  font-weight: 700;
-  letter-spacing: 0.05em;
+  font-weight: 600;
+  margin-bottom: 4px;
 }
-.stat-value {
-  font-size: 1.75rem;
-  font-weight: 800;
+
+.stat .value {
+  font-size: 16px;
+  font-weight: 700;
   color: var(--text);
 }
 
-.progress-box {
-  margin-bottom: 2.5rem;
+.progress-wrap {
+  margin-bottom: 16px;
 }
-.progress-labels {
+
+.progress-bar {
+  height: 6px;
+  background: #f4f4f5;
+  border-radius: 3px;
+  position: relative;
+  overflow: visible;
+}
+
+.fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.4s;
+}
+.fill.success {
+  background: var(--success);
+}
+.fill.danger {
+  background: var(--danger);
+}
+
+.marker {
+  position: absolute;
+  top: -2px;
+  width: 2px;
+  height: 10px;
+  background: var(--text);
+  border-radius: 1px;
+  z-index: 1;
+}
+
+.progress-info {
   display: flex;
   justify-content: space-between;
-  font-size: 0.85rem;
-  margin-bottom: 0.75rem;
+  font-size: 11px;
+  color: var(--text-dim);
+  margin-top: 6px;
+}
+
+.input-section {
+  margin-bottom: 16px;
+}
+
+.input-section label {
+  display: block;
+  font-size: 12px;
   color: var(--text-dim);
   font-weight: 500;
-}
-.progress-bar {
-  height: 10px;
-  background: #f1f5f9;
-  border-radius: 100px;
-  overflow: hidden;
-  position: relative;
-}
-.progress-fill {
-  height: 100%;
-  transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-  border-radius: 100px;
-}
-.ideal-marker {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 4px;
-  background: #1e293b;
-  z-index: 10;
-  border-radius: 2px;
+  margin-bottom: 6px;
 }
 
-.input-group {
-  margin-bottom: 2rem;
-}
-label {
-  display: block;
-  font-size: 0.85rem;
-  margin-bottom: 0.5rem;
-  color: var(--text-dim);
-  font-weight: 600;
-}
-input {
-  width: 100%;
-  padding: 0.75rem 1rem;
-}
-
-.quick-actions {
+.input-row {
   display: flex;
-  gap: 0.5rem;
-  margin-top: 1rem;
+  gap: 8px;
 }
-.btn-quick {
+
+.input-row input {
   flex: 1;
-  background: #ffffff;
-  padding: 0.6rem;
-  font-size: 0.85rem;
-  border-radius: 8px;
-}
-.btn-quick:hover {
-  background: #f1f5f9;
-  border-color: var(--primary);
-  color: var(--primary);
+  min-width: 0;
 }
 
-.save-tip {
-  font-size: 0.75rem;
+.quick-btns {
+  display: flex;
+  gap: 4px;
+}
+
+.quick-btns button {
+  padding: 6px 10px;
+  font-size: 12px;
+}
+
+.tip {
+  display: block;
+  font-size: 11px;
   color: var(--success);
-  margin-top: 0.5rem;
-  text-align: right;
-  height: 1rem;
-  font-weight: 600;
-  transition: opacity 0.3s;
+  margin-top: 4px;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.tip.show {
+  opacity: 1;
 }
 
-.advice-box {
-  padding: 1.5rem;
-  background: #eff6ff;
-  border-radius: 16px;
-  border-left: 4px solid var(--primary);
-  text-align: left;
-}
-.advice-title {
-  font-weight: 700;
-  margin-bottom: 0.25rem;
-  font-size: 1rem;
-  color: #1e3a8a;
-}
-.advice-text {
-  font-size: 0.9rem;
-  color: #1e40af;
-  line-height: 1.5;
+.advice {
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 16px;
 }
 
-.config-panel {
-  margin-top: 2rem;
-  padding-top: 2rem;
-  border-top: 1px solid var(--border);
-}
-.config-row {
-  display: flex;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
+.advice.danger {
+  background: #fef2f2;
+  border-color: #fecaca;
 }
 
-.switch-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  cursor: pointer;
+.advice strong {
+  display: block;
+  font-size: 13px;
+  margin-bottom: 2px;
 }
-.switch-label {
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: var(--text);
-}
-.switch-sublabel {
-  font-size: 0.8rem;
+
+.advice span {
+  font-size: 12px;
   color: var(--text-dim);
 }
 
-.switch {
-  position: relative;
-  width: 44px;
-  height: 24px;
+.config {
+  border-top: 1px solid var(--border);
+  padding-top: 16px;
 }
-.switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
+
+.row {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 12px;
 }
-.slider {
-  position: absolute;
+
+.field {
+  flex: 1;
+}
+
+.field label {
+  display: block;
+  font-size: 11px;
+  color: var(--text-dim);
+  margin-bottom: 4px;
+}
+
+.field input {
+  width: 100%;
+}
+
+.toggle-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #e2e8f0;
-  transition: 0.3s;
-  border-radius: 24px;
+  font-size: 13px;
 }
-.slider:before {
+
+.toggle {
+  width: 36px;
+  height: 20px;
+  background: #e4e4e7;
+  border-radius: 10px;
+  position: relative;
+  transition: background 0.2s;
+}
+
+.toggle.on {
+  background: var(--primary);
+}
+
+.knob {
   position: absolute;
-  content: "";
-  height: 18px;
-  width: 18px;
-  left: 3px;
-  bottom: 3px;
-  background-color: white;
-  transition: 0.3s;
-  border-radius: 50%;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  background: white;
+  border-radius: 8px;
+  transition: transform 0.2s;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
-input:checked + .slider {
-  background-color: var(--primary);
-}
-input:checked + .slider:before {
-  transform: translateX(20px);
+
+.toggle.on .knob {
+  transform: translateX(16px);
 }
 </style>
