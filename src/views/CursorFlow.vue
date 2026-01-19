@@ -131,7 +131,7 @@ watch(state, () => saveState());
 </script>
 
 <template>
-  <ToolPage title="Cursor Flow" maxWidth="480px">
+  <ToolPage title="Cursor Flow" maxWidth="560px">
     <template #actions>
       <div class="velocity">
         <span>{{
