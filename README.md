@@ -1,43 +1,5 @@
-# Dev Flow Kit
+# Vue 3 + TypeScript + Vite
 
-Dev Flow Kit 是一个为开发者打造的轻量级工具集合，旨在解决日常开发中的高频小痛点，助你进入高效的心流状态 (Flow State)。
+This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
 
-在线访问：[https://lifedever.github.io/dev-flow-kit/](https://lifedever.github.io/dev-flow-kit/)
-
-## 🛠️ 工具列表
-
-当前包含以下实用工具：
-
-### ⚡ Cursor Flow (Cursor 额度管家)
-
-一个专为 Cursor Ultra 用户设计的高颜值额度监控面板。
-
-- **精准算法**：支持“仅工作日”平摊模式，科学分配每月额度。
-- **燃尽率分析**：基于当前时间进度，实时计算你的 Token 消耗速率（🔥/❄️）。
-- **隐私安全**：纯前端实现，所有配置数据仅存储在本地浏览器 (LocalStorage)。
-
-> *更多开发者小工具正在孵化中...*
-
-## 🚀 部署与运行
-
-本项目基于纯静态 HTML/CSS/JS 构建，无任何后端依赖。
-
-### 本地运行
-
-```bash
-# 启动本地服务
-npx http-server .
-```
-
-### 技术栈
-
-- Vanilla JS / CSS (无框架依赖)
-- High-Contrast UI Design Style
-- LocalStorage Data Persistence
-
-## 🤝 贡献
-
-欢迎提交 PR 或 Issue 来丰富这个工具箱！
-
----
-&copy; 2026 Powered by [lifedever](https://github.com/lifedever)
+Learn more about the recommended Project Setup and IDE Support in the [Vue Docs TypeScript Guide](https://vuejs.org/guide/typescript/overview.html#project-setup).
