@@ -4,7 +4,7 @@ import CursorFlow from '../views/CursorFlow.vue'
 import JsonCleaner from '../views/JsonCleaner.vue'
 
 const router = createRouter({
-  history: createWebHashHistory('/dev-flow-kit/'),
+  history: createWebHashHistory(),
   routes: [
     {
       path: '/',
