@@ -1,10 +1,10 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import CursorFlow from '../views/CursorFlow.vue'
 import JsonCleaner from '../views/JsonCleaner.vue'
 
 const router = createRouter({
-  history: createWebHistory('/dev-flow-kit/'),
+  history: createWebHashHistory('/dev-flow-kit/'),
   routes: [
     {
       path: '/',
