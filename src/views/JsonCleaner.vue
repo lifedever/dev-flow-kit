@@ -124,53 +124,59 @@ const copyToClipboard = async () => {
 .cleaner-container {
   display: flex;
   flex-direction: column;
-  align-items: center;
   height: 100vh;
-  padding: 20px;
+  padding: 1.5rem;
   max-width: 1400px;
   margin: 0 auto;
 }
 
 .header-nav {
-  width: 100%;
-  text-align: left;
-  margin-bottom: 20px;
+  margin-bottom: 1.5rem;
+}
+
+.header-nav a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--text-dim);
+  text-decoration: none;
 }
 
 .main-card {
   background: var(--card-bg);
-  border-radius: 24px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 20px -5px rgba(0, 0, 0, 0.05);
   width: 100%;
   flex: 1;
   display: flex;
   flex-direction: column;
-  padding: 24px;
-  color: var(--text);
+  padding: 2rem;
   overflow: hidden;
 }
 
 header {
   text-align: center;
-  margin-bottom: 24px;
+  margin-bottom: 2rem;
 }
 header h1 {
-  color: #fff;
-  margin: 0 0 8px 0;
-  font-size: 24px;
+  color: var(--text);
+  margin: 0 0 0.5rem 0;
+  font-size: 1.5rem;
+  font-weight: 800;
 }
 .subtitle {
   color: var(--text-dim);
-  font-size: 14px;
+  font-size: 0.9rem;
 }
 
 .grid-layout {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 24px;
+  gap: 2rem;
   flex: 1;
-  min-height: 0; /* 关键：让 flex 子项能够滚动 */
+  min-height: 0;
 }
 
 .column {
@@ -183,38 +189,36 @@ header h1 {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 12px;
+  margin-bottom: 1rem;
 }
 .col-header h3 {
-  font-size: 14px;
+  font-size: 0.75rem;
   color: var(--text-dim);
-  font-weight: 600;
+  font-weight: 700;
   margin: 0;
   text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .editor-area {
   flex: 1;
-  background: rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #f8fafc;
+  border: 1px solid var(--border);
   border-radius: 12px;
-  padding: 16px;
-  color: #fff;
-  font-family: "Menlo", "Monaco", monospace;
-  font-size: 13px;
-  line-height: 1.5;
+  padding: 1.25rem;
+  color: #334155;
+  font-family: "JetBrains Mono", "Fira Code", "Menlo", monospace;
+  font-size: 0.85rem;
+  line-height: 1.6;
   resize: none;
-}
-.editor-area:focus {
-  outline: none;
-  border-color: var(--primary);
 }
 
 .preview-mode {
   flex: 1;
-  background: #fff; /* 预览区用白底，方便看 Markdown 效果 */
+  background: #ffffff;
+  border: 1px solid var(--border);
   border-radius: 12px;
-  padding: 20px;
+  padding: 1.5rem;
   overflow-y: auto;
   color: #1e293b;
   text-align: left;
@@ -222,50 +226,69 @@ header h1 {
 
 .btn-copy,
 .btn-clear {
-  padding: 4px 12px;
-  font-size: 12px;
-  background: rgba(255, 255, 255, 0.1);
-  color: var(--text);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 6px;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: 8px;
 }
-.btn-copy:hover {
-  border-color: var(--primary);
-  background: rgba(59, 130, 246, 0.2);
-}
+
 .success {
   background: var(--success) !important;
   color: white !important;
   border-color: var(--success) !important;
 }
 
-/* Markdown Styles Shim */
+.error-banner {
+  background: #fef2f2;
+  color: #dc2626;
+  padding: 0.75rem;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  margin-bottom: 1rem;
+}
+
+/* Markdown Styles Refined */
 :deep(.markdown-body) {
-  font-size: 14px;
-  line-height: 1.6;
+  font-size: 0.9rem;
+  line-height: 1.7;
 }
 :deep(.markdown-body h1),
 :deep(.markdown-body h2) {
-  border-bottom: 1px solid #e2e8f0;
+  border-bottom: 1px solid #f1f5f9;
   padding-bottom: 0.3em;
+  margin-top: 1.5em;
+  margin-bottom: 1rem;
 }
 :deep(.markdown-body pre) {
-  background: #f1f5f9;
-  padding: 16px;
-  border-radius: 8px;
+  background: #f8fafc;
+  padding: 1.25rem;
+  border-radius: 10px;
+  border: 1px solid #f1f5f9;
   overflow-x: auto;
+  margin: 1rem 0;
 }
 :deep(.markdown-body code) {
   background: #f1f5f9;
   padding: 0.2em 0.4em;
   border-radius: 4px;
   font-size: 85%;
-  font-family: monospace;
+  color: #ef4444;
+  font-family: inherit;
+}
+:deep(.markdown-body pre code) {
+  background: none;
+  color: inherit;
+  padding: 0;
+  font-size: 0.8rem;
 }
 :deep(.markdown-body blockquote) {
-  border-left: 4px solid #cbd5e1;
+  border-left: 4px solid #e2e8f0;
   color: #64748b;
-  padding-left: 1em;
-  margin: 0;
+  padding-left: 1rem;
+  margin: 1.5rem 0;
+}
+:deep(.markdown-body ul),
+:deep(.markdown-body ol) {
+  padding-left: 1.5rem;
 }
 </style>

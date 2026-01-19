@@ -276,222 +276,235 @@ watch(state, () => {
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 2rem 1rem;
 }
 
 .header-nav {
   width: 100%;
-  max-width: 560px;
+  max-width: 500px;
   text-align: left;
-  margin-bottom: 20px;
+  margin-bottom: 1.5rem;
+}
+
+.header-nav a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--text-dim);
+  text-decoration: none;
 }
 
 .card-container {
   width: 100%;
-  max-width: 560px;
+  max-width: 500px;
   background: var(--card-bg);
-  border-radius: 28px;
-  padding: 32px;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: var(--text);
+  border-radius: 24px;
+  padding: 2.5rem;
+  box-shadow:
+    0 10px 25px -5px rgba(0, 0, 0, 0.04),
+    0 8px 10px -6px rgba(0, 0, 0, 0.02);
+  border: 1px solid var(--border);
   position: relative;
 }
 
 header {
   text-align: center;
-  margin-bottom: 24px;
-  position: relative;
+  margin-bottom: 2rem;
 }
 
 h1 {
-  font-size: 26px;
-  font-weight: 700;
-  margin-bottom: 8px;
-  color: #fff;
+  font-size: 1.75rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+  color: var(--text);
+  letter-spacing: -0.02em;
 }
 
 .subtitle {
-  font-size: 14px;
+  font-size: 0.95rem;
   color: var(--text-dim);
 }
 
 .velocity-badge {
   position: absolute;
-  top: -10px;
-  right: -10px;
-  background: rgba(255, 255, 255, 0.1);
-  padding: 8px 12px;
+  top: 1.5rem;
+  right: 1.5rem;
+  background: #f8fafc;
+  padding: 0.5rem 0.75rem;
   border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--border);
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 .emoji {
-  font-size: 18px;
+  font-size: 1.25rem;
 }
 .velocity-label {
-  font-size: 9px;
+  font-size: 0.65rem;
   color: var(--text-dim);
-  margin-top: 2px;
+  margin-top: 0.25rem;
+  font-weight: 700;
   text-transform: uppercase;
 }
 
 .status-badge {
   display: inline-block;
-  padding: 6px 14px;
-  border-radius: 20px;
-  font-size: 12px;
+  padding: 0.4rem 1rem;
+  border-radius: 100px;
+  font-size: 0.8rem;
   font-weight: 700;
-  margin-bottom: 20px;
+  margin-bottom: 1.5rem;
 }
 .status-on-track {
-  background: rgba(16, 185, 129, 0.2);
-  color: var(--success);
+  background: #ecfdf5;
+  color: #059669;
 }
 .status-over {
-  background: rgba(239, 68, 68, 0.2);
-  color: var(--danger);
+  background: #fef2f2;
+  color: #dc2626;
 }
 
 .stats-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 16px;
-  margin-bottom: 32px;
+  gap: 1rem;
+  margin-bottom: 2rem;
 }
 
 .stat-card {
-  background: rgba(255, 255, 255, 0.05);
-  padding: 16px;
-  border-radius: 20px;
+  background: #f8fafc;
+  padding: 1.25rem;
+  border-radius: 16px;
   text-align: center;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  transition: 0.3s;
+  border: 1px solid var(--border);
+  transition: all 0.2s ease;
 }
 
 .card-fire {
-  box-shadow: 0 0 20px rgba(239, 68, 68, 0.3);
-  border-color: rgba(239, 68, 68, 0.3);
+  background: #fff5f5;
+  border-color: #feb2b2;
 }
 
 .stat-label {
-  font-size: 11px;
+  font-size: 0.7rem;
   color: var(--text-dim);
-  margin-bottom: 6px;
+  margin-bottom: 0.5rem;
   text-transform: uppercase;
+  font-weight: 700;
   letter-spacing: 0.05em;
 }
 .stat-value {
-  font-size: 24px;
+  font-size: 1.75rem;
   font-weight: 800;
-  color: #fff;
+  color: var(--text);
 }
 
 .progress-box {
-  margin-bottom: 32px;
+  margin-bottom: 2.5rem;
 }
 .progress-labels {
   display: flex;
   justify-content: space-between;
-  font-size: 13px;
-  margin-bottom: 10px;
+  font-size: 0.85rem;
+  margin-bottom: 0.75rem;
   color: var(--text-dim);
+  font-weight: 500;
 }
 .progress-bar {
-  height: 14px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 7px;
+  height: 10px;
+  background: #f1f5f9;
+  border-radius: 100px;
   overflow: hidden;
   position: relative;
 }
 .progress-fill {
   height: 100%;
   transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  border-radius: 100px;
 }
 .ideal-marker {
   position: absolute;
   top: 0;
   bottom: 0;
-  width: 3px;
-  background: #fff;
+  width: 4px;
+  background: #1e293b;
   z-index: 10;
-  box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+  border-radius: 2px;
 }
 
 .input-group {
-  margin-bottom: 24px;
+  margin-bottom: 2rem;
 }
 label {
   display: block;
-  font-size: 13px;
-  margin-bottom: 10px;
+  font-size: 0.85rem;
+  margin-bottom: 0.5rem;
   color: var(--text-dim);
-  text-align: left;
+  font-weight: 600;
 }
 input {
   width: 100%;
-  background: rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: #fff;
+  padding: 0.75rem 1rem;
 }
 
 .quick-actions {
   display: flex;
-  gap: 8px;
-  margin-top: 12px;
+  gap: 0.5rem;
+  margin-top: 1rem;
 }
 .btn-quick {
   flex: 1;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 8px;
-  border-radius: 10px;
-  font-size: 12px;
-  color: var(--text);
+  background: #ffffff;
+  padding: 0.6rem;
+  font-size: 0.85rem;
+  border-radius: 8px;
 }
 .btn-quick:hover {
-  background: rgba(255, 255, 255, 0.15);
+  background: #f1f5f9;
   border-color: var(--primary);
+  color: var(--primary);
 }
 
 .save-tip {
-  font-size: 11px;
+  font-size: 0.75rem;
   color: var(--success);
-  margin-top: 6px;
-  transition: 0.3s;
+  margin-top: 0.5rem;
   text-align: right;
-  height: 16px;
+  height: 1rem;
+  font-weight: 600;
+  transition: opacity 0.3s;
 }
 
 .advice-box {
-  padding: 20px;
-  background: rgba(59, 130, 246, 0.15);
-  border-radius: 20px;
+  padding: 1.5rem;
+  background: #eff6ff;
+  border-radius: 16px;
   border-left: 4px solid var(--primary);
   text-align: left;
 }
 .advice-title {
   font-weight: 700;
-  margin-bottom: 4px;
-  font-size: 15px;
-  color: #fff;
+  margin-bottom: 0.25rem;
+  font-size: 1rem;
+  color: #1e3a8a;
 }
 .advice-text {
-  font-size: 14px;
-  color: #cbd5e1;
-  line-height: 1.6;
+  font-size: 0.9rem;
+  color: #1e40af;
+  line-height: 1.5;
 }
 
 .config-panel {
-  margin-top: 24px;
-  padding-top: 24px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border);
 }
 .config-row {
   display: flex;
-  gap: 12px;
-  margin-bottom: 24px;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
 }
 
 .switch-row {
@@ -499,21 +512,19 @@ input {
   align-items: center;
   justify-content: space-between;
   cursor: pointer;
-  user-select: none;
 }
 .switch-label {
-  font-size: 14px;
+  font-size: 0.95rem;
+  font-weight: 600;
   color: var(--text);
 }
 .switch-sublabel {
-  font-size: 12px;
+  font-size: 0.8rem;
   color: var(--text-dim);
-  display: block;
 }
 
 .switch {
   position: relative;
-  display: inline-block;
   width: 44px;
   height: 24px;
 }
@@ -524,12 +535,12 @@ input {
 }
 .slider {
   position: absolute;
-  pointer-events: none;
+  cursor: pointer;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: #e2e8f0;
   transition: 0.3s;
   border-radius: 24px;
 }
@@ -543,6 +554,7 @@ input {
   background-color: white;
   transition: 0.3s;
   border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 input:checked + .slider {
   background-color: var(--primary);
