@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dev Workspace - 个人开发者工具箱</title>
+    <style>
+        :root {
+            --primary: #3b82f6;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #0f172a;
+            --text-dim: #64748b;
+        }
+
+        * { 
+            box-sizing: border-box; 
+            margin: 0; 
+            padding: 0; 
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            color: var(--text);
+        }
+
+        body {
+            background-color: var(--bg);
+            background-image: radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.05) 0px, transparent 50%),
+                              radial-gradient(at 100% 100%, rgba(16, 185, 129, 0.05) 0px, transparent 50%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 60px 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+            max-width: 600px;
+        }
+
+        h1 {
+            font-size: 42px;
+            font-weight: 800;
+            letter-spacing: -0.04em;
+            margin-bottom: 16px;
+            color: #0f172a;
+        }
+
+        p.description {
+            font-size: 18px;
+            color: var(--text-dim);
+            line-height: 1.6;
+        }
+
+        .tool-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .tool-card {
+            background: var(--card-bg);
+            border: 1px solid #e2e8f0;
+            border-radius: 24px;
+            padding: 32px;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+        }
+
+        .tool-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--primary);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .icon-box {
+            width: 48px;
+            height: 48px;
+            background: #eff6ff;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+            border: 1px solid #dbeafe;
+        }
+
+        .tool-name {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #0f172a;
+        }
+
+        .tool-desc {
+            font-size: 14px;
+            color: var(--text-dim);
+            line-height: 1.5;
+            flex-grow: 1;
+        }
+
+        .badge {
+            margin-top: 16px;
+            font-size: 11px;
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+        }
+
+        .badge::after {
+            content: '→';
+            margin-left: 6px;
+            transition: transform 0.2s;
+        }
+
+        .tool-card:hover .badge::after {
+            transform: translateX(4px);
+        }
+
+        .placeholder-card {
+            border: 2px dashed #e2e8f0;
+            background: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #94a3b8;
+            font-size: 14px;
+            min-height: 200px;
+            border-radius: 24px;
+        }
+
+        footer {
+            margin-top: auto;
+            padding: 40px 0;
+            color: #94a3b8;
+            font-size: 12px;
+            letter-spacing: 0.05em;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Dev Workspace</h1>
+    <p class="description">高效开发者的私人工具箱，旨在管理工作流与资源额度。</p>
+</header>
+
+<div class="tool-grid">
+    <a href="cursor-flow.html" class="tool-card">
+        <div class="icon-box">⚡</div>
+        <div class="tool-name">Cursor Flow</div>
+        <div class="tool-desc">
+            针对 Cursor Ultra 套餐的精准额度管理工具。支持工作日平摊算法、燃尽率分析及智能预算建议。
+        </div>
+        <div class="badge">立即使用</div>
+    </a>
+
+    <div class="placeholder-card">
+        更多工具开发中...
+    </div>
+</div>
+
+<footer>
+    &copy; 2026 POWERED BY <a href="https://github.com/lifedever" target="_blank" style="color: inherit; text-decoration: none; border-bottom: 1px solid rgba(0,0,0,0.1);">lifedever</a>
+</footer>
+
+</body>
+</html>
