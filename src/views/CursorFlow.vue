@@ -238,16 +238,16 @@ watch(state, () => saveState());
 
 <style scoped>
 .page {
-  max-width: 400px;
+  max-width: 480px;
   margin: 0 auto;
-  padding: 24px 16px;
+  padding: 32px 20px;
 }
 
 .topbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 }
 
 .back {
@@ -263,14 +263,14 @@ watch(state, () => saveState());
   background: var(--card-bg);
   border: 1px solid var(--border);
   border-radius: 12px;
-  padding: 20px;
+  padding: 28px;
 }
 
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 16px;
+  margin-bottom: 24px;
 }
 
 .header h1 {
@@ -297,15 +297,15 @@ watch(state, () => saveState());
 .stats {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-  margin-bottom: 16px;
+  gap: 12px;
+  margin-bottom: 24px;
 }
 
 .stat {
   background: #fafafa;
   border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 10px;
+  border-radius: 10px;
+  padding: 14px 12px;
   text-align: center;
 }
 
@@ -330,7 +330,7 @@ watch(state, () => saveState());
 }
 
 .progress-wrap {
-  margin-bottom: 16px;
+  margin-bottom: 24px;
 }
 
 .progress-bar {
@@ -372,7 +372,7 @@ watch(state, () => saveState());
 }
 
 .input-section {
-  margin-bottom: 16px;
+  margin-bottom: 24px;
 }
 
 .input-section label {
