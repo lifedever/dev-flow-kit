@@ -86,6 +86,8 @@ const computedData = computed(() => {
   if (ratio > 1.25) status = "fire";
   else if (ratio < 0.75) status = "ice";
 
+  const endDate = `${end.getFullYear()}-${String(end.getMonth() + 1).padStart(2, "0")}-${String(end.getDate()).padStart(2, "0")}`;
+
   return {
     idealSpend,
     cycleProgress,
@@ -94,6 +96,7 @@ const computedData = computed(() => {
     diff,
     isOver,
     status,
+    endDate,
   };
 });
 
@@ -146,6 +149,7 @@ watch(state, () => saveState());
         <span class="tag" :class="computedData.isOver ? 'danger' : 'success'">
           {{ computedData.isOver ? "当前超支" : "额度正常" }}
         </span>
+        <span class="expire-tag"> {{ computedData.endDate }} 到期 </span>
       </div>
 
       <div class="stats">
@@ -239,7 +243,18 @@ watch(state, () => saveState());
 .status-row {
   display: flex;
   justify-content: center;
+  align-items: center;
+  gap: 8px;
   margin-bottom: 24px;
+}
+
+.expire-tag {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-dim);
+  background: #f4f4f5;
+  padding: 4px 10px;
+  border-radius: 6px;
 }
 
 .velocity {
