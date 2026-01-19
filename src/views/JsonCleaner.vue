@@ -13,24 +13,42 @@ const cleanedContent = computed(() => {
   try {
     let parsed: any;
     try {
-      parsed = JSON.parse(rawInput.value);
+      // 尝试处理带引号或者不带引号的模拟 JSON 字符串
+      let toParse = rawInput.value.trim();
+      if (
+        !toParse.startsWith('"') &&
+        !toParse.startsWith("{") &&
+        !toParse.startsWith("[")
+      ) {
+        toParse = `"${toParse}"`;
+      }
+      parsed = JSON.parse(toParse);
     } catch {
-      let manual = rawInput.value
+      // 如果 JSON 解析完全失败，手动进行常见转义字符替换
+      return rawInput.value
+        .replace(/\\r\\n/g, "\n")
         .replace(/\\n/g, "\n")
+        .replace(/\\r/g, "\n")
         .replace(/\\"/g, '"')
+        .replace(/\\'/g, "'")
         .replace(/\\\\/g, "\\")
         .replace(/\\t/g, "\t");
-      return manual;
     }
 
-    if (typeof parsed === "string") return parsed;
-    if (typeof parsed === "object" && parsed !== null) {
-      if (parsed.content) return parsed.content;
-      if (parsed.message?.content) return parsed.message.content;
-      if (parsed.answer) return parsed.answer;
-      return JSON.stringify(parsed, null, 2);
+    let result = "";
+    if (typeof parsed === "string") {
+      result = parsed;
+    } else if (typeof parsed === "object" && parsed !== null) {
+      if (parsed.content) result = parsed.content;
+      else if (parsed.message?.content) result = parsed.message.content;
+      else if (parsed.answer) result = parsed.answer;
+      else result = JSON.stringify(parsed, null, 2);
+    } else {
+      result = String(parsed);
     }
-    return String(parsed);
+
+    // 归一化换行符，处理可能混入的真 \r\n
+    return result.replace(/\r\n/g, "\n").replace(/\r/g, "\n");
   } catch (e: any) {
     errorMsg.value = "解析失败：" + e.message;
     return rawInput.value;

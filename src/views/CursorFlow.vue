@@ -274,16 +274,16 @@ watch(state, () => saveState());
 }
 
 .header h1 {
-  font-size: 18px;
-  font-weight: 700;
+  font-size: 24px;
+  font-weight: 800;
   letter-spacing: -0.02em;
 }
 
 .tag {
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 600;
-  padding: 3px 8px;
-  border-radius: 4px;
+  padding: 5px 12px;
+  border-radius: 6px;
 }
 .tag.success {
   background: #ecfdf5;
@@ -316,16 +316,16 @@ watch(state, () => saveState());
 
 .stat .label {
   display: block;
-  font-size: 10px;
+  font-size: 12px;
   color: var(--text-dim);
   text-transform: uppercase;
   font-weight: 600;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
 }
 
 .stat .value {
-  font-size: 16px;
-  font-weight: 700;
+  font-size: 22px;
+  font-weight: 800;
   color: var(--text);
 }
 
@@ -366,9 +366,9 @@ watch(state, () => saveState());
 .progress-info {
   display: flex;
   justify-content: space-between;
-  font-size: 11px;
+  font-size: 13px;
   color: var(--text-dim);
-  margin-top: 6px;
+  margin-top: 8px;
 }
 
 .input-section {
@@ -377,10 +377,10 @@ watch(state, () => saveState());
 
 .input-section label {
   display: block;
-  font-size: 12px;
+  font-size: 14px;
   color: var(--text-dim);
   font-weight: 500;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
 }
 
 .input-row {
@@ -430,12 +430,12 @@ watch(state, () => saveState());
 
 .advice strong {
   display: block;
-  font-size: 13px;
-  margin-bottom: 2px;
+  font-size: 16px;
+  margin-bottom: 4px;
 }
 
 .advice span {
-  font-size: 12px;
+  font-size: 14px;
   color: var(--text-dim);
 }
 
