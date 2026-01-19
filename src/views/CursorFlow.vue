@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, reactive, computed, onMounted, watch } from "vue";
+import ToolPage from "../components/ToolPage.vue";
 
 interface State {
   currentSpend: number;
@@ -127,9 +128,8 @@ watch(state, () => saveState());
 </script>
 
 <template>
-  <div class="page">
-    <div class="topbar">
-      <router-link to="/" class="back">← 返回</router-link>
+  <ToolPage title="Cursor Flow" maxWidth="480px">
+    <template #actions>
       <div class="velocity">
         <span>{{
           computedData.status === "fire"
@@ -139,13 +139,12 @@ watch(state, () => saveState());
               : "⚡"
         }}</span>
       </div>
-    </div>
+    </template>
 
     <div class="panel">
-      <div class="header">
-        <h1>Cursor Flow</h1>
+      <div class="status-row">
         <span class="tag" :class="computedData.isOver ? 'danger' : 'success'">
-          {{ computedData.isOver ? "超支" : "正常" }}
+          {{ computedData.isOver ? "当前超支" : "额度正常" }}
         </span>
       </div>
 
@@ -233,29 +232,19 @@ watch(state, () => saveState());
         </div>
       </div>
     </div>
-  </div>
+  </ToolPage>
 </template>
 
 <style scoped>
-.page {
-  max-width: 480px;
-  margin: 0 auto;
-  padding: 32px 20px;
-}
-
-.topbar {
+.status-row {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.back {
-  font-size: 13px;
-  color: var(--text-dim);
+  justify-content: center;
+  margin-bottom: 24px;
 }
 
 .velocity {
+  display: flex;
+  align-items: center;
   font-size: 18px;
 }
 
@@ -264,19 +253,6 @@ watch(state, () => saveState());
   border: 1px solid var(--border);
   border-radius: 12px;
   padding: 28px;
-}
-
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 24px;
-}
-
-.header h1 {
-  font-size: 24px;
-  font-weight: 800;
-  letter-spacing: -0.02em;
 }
 
 .tag {

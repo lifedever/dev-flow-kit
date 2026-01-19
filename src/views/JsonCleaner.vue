@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
 import { marked } from "marked";
+import ToolPage from "../components/ToolPage.vue";
 
 const rawInput = ref("");
 const errorMsg = ref("");
@@ -73,13 +74,7 @@ const copyToClipboard = async () => {
 </script>
 
 <template>
-  <div class="page">
-    <div class="topbar">
-      <router-link to="/" class="back">← 返回</router-link>
-      <h1>Markdown Cleaner</h1>
-      <div></div>
-    </div>
-
+  <ToolPage title="Markdown Cleaner" maxWidth="1200px">
     <div class="panels">
       <div class="panel">
         <div class="panel-header">
@@ -104,36 +99,10 @@ const copyToClipboard = async () => {
         <div class="preview markdown-body" v-html="markdownPreview"></div>
       </div>
     </div>
-  </div>
+  </ToolPage>
 </template>
 
 <style scoped>
-.page {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  padding: 16px;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.topbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 16px;
-}
-
-.back {
-  font-size: 14px;
-  color: var(--text-dim);
-}
-
-.topbar h1 {
-  font-size: 18px;
-  font-weight: 700;
-}
-
 .panels {
   flex: 1;
   display: grid;
