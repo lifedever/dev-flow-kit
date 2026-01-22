@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Background: Rounded Square (The Kit) -->
+  <rect x="0" y="0" width="512" height="512" rx="100" ry="100" fill="#2563eb"/>
+  
+  <!-- Icon: Lightning Bolt (The Flow) -->
+  <!-- Centered and balanced -->
+  <path d="M300 40 L140 280 L260 280 L220 470 L380 230 L260 230 Z" fill="white" stroke="white" stroke-width="10" stroke-linejoin="round"/>
+</svg>
