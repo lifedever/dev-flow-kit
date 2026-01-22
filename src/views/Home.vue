@@ -3,8 +3,11 @@
 <template>
   <div class="home">
     <header>
-      <h1>Dev Flow Kit</h1>
-      <p>高效开发者的私人工具箱</p>
+      <img src="/favicon.svg" alt="Dev Flow Kit Logo" class="logo" />
+      <div class="header-text">
+        <h1>Dev Flow Kit</h1>
+        <p>高效开发者的私人工具箱</p>
+      </div>
     </header>
 
     <div class="grid">
@@ -54,20 +57,41 @@
 }
 
 header {
-  margin-bottom: 32px;
+  margin-bottom: 48px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 16px;
 }
 
-header h1 {
-  font-size: 24px;
-  font-weight: 700;
+.logo {
+  width: 80px;
+  height: 80px;
+  filter: drop-shadow(0 4px 12px rgba(37, 99, 235, 0.2));
+  transition: transform 0.3s ease;
+}
+
+.logo:hover {
+  transform: scale(1.05) rotate(-5deg);
+}
+
+.header-text h1 {
+  font-size: 32px;
+  font-weight: 800;
   color: var(--text);
-  margin-bottom: 4px;
-  letter-spacing: -0.02em;
+  margin-bottom: 8px;
+  letter-spacing: -0.03em;
+  background: linear-gradient(135deg, var(--primary) 0%, #1e40af 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
-header p {
+.header-text p {
   color: var(--text-dim);
-  font-size: 14px;
+  font-size: 16px;
+  font-weight: 500;
 }
 
 .grid {
