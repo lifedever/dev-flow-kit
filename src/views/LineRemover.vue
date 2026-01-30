@@ -10,26 +10,29 @@ const cleanedContent = computed(() => {
 
   const lines = rawInput.value.split(/\r?\n/);
 
-  // 识别行号模式
-  // 匹配类似 " 1 ", "1. ", "1: ", "1 | " 的模式
-  return lines
-    .map((line) => {
-      // 1. 尝试匹配 "数字 + 空格/标点" 开头的行
-      // ^\s* 开始
-      // \d+ 数字
-      // (?:[\s.|:]\s*) 后跟空格、点、冒号或竖线
-      // 如果匹配成功，只替换掉开头的部分
-      const regex = /^\s*\d+(?:[\s.|:]\s*)/;
-      if (regex.test(line)) {
-        return line.replace(regex, "");
-      }
+  // 1. 尝试检测公共前缀（针对所有行都有行号的情况，行号可能在缩进之后）
+  // 匹配模式：可选空格 + 数字 + (空格/点/冒号/竖线/结束)
+  const lineNumRegex = /^(\s*)(\d+)([\s.|:]|$)(.*)/;
 
-      // 如果没有匹配到明显的分隔符，但开头是数字且后面跟着内容
-      // 比如 "1 server"
-      const simpleRegex = /^\s*\d+\s+/;
-      return line.replace(simpleRegex, "");
-    })
-    .join("\n");
+  // 先处理每一行，提取潜在的代码部分
+  const processedLines = lines.map((line) => {
+    const match = line.match(lineNumRegex);
+    if (match && match[3] !== undefined && match[4] !== undefined) {
+      // match[1] 是行号前的空格
+      // match[2] 是行号
+      // match[3] 是分隔符
+      // match[4] 是后面的实际代码内容
+
+      // 如果 match[4] 只有空白且 match[3] 不是明显的分隔符，说明这行可能原本就是个空行，只是带了行号
+      if (!match[4].trim() && ![".", ":", "|"].includes(match[3].trim())) {
+        return "";
+      }
+      return match[4];
+    }
+    return line;
+  });
+
+  return processedLines.join("\n");
 });
 
 const copyToClipboard = async () => {
