@@ -3,6 +3,8 @@ import Home from '../views/Home.vue'
 import CursorFlow from '../views/CursorFlow.vue'
 import JsonCleaner from '../views/JsonCleaner.vue'
 import Mirror from '../views/Mirror.vue'
+import LineRemover from '../views/LineRemover.vue'
+
 
 const router = createRouter({
   history: createWebHashHistory(),
@@ -26,7 +28,13 @@ const router = createRouter({
       path: '/mirror',
       name: 'mirror',
       component: Mirror
+    },
+    {
+      path: '/line-remover',
+      name: 'line-remover',
+      component: LineRemover
     }
+
   ]
 })
 

@@ -38,6 +38,15 @@
         <span class="arrow">→</span>
       </router-link>
 
+      <router-link to="/line-remover" class="card">
+        <div class="card-icon">🔢</div>
+        <div class="card-content">
+          <h3>Line Remover</h3>
+          <p>一键去除代码行号，方便复制纯净代码</p>
+        </div>
+        <span class="arrow">→</span>
+      </router-link>
+
       <div class="card placeholder">
         <span>更多工具开发中...</span>
       </div>
