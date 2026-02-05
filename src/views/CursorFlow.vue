@@ -241,23 +241,19 @@ watch(state, () => saveState());
       </div>
 
       <div class="config">
-        <div class="row">
+        <div class="config-row">
           <div class="field">
             <label>重置日</label>
             <input type="number" v-model="state.resetDay" min="1" max="31" />
           </div>
-          <div class="field">
-            <label>月总额 (%)</label>
-            <input type="number" v-model="state.totalQuota" />
-          </div>
-        </div>
-        <div
-          class="toggle-row"
-          @click="state.excludeWeekends = !state.excludeWeekends"
-        >
-          <span>仅工作日</span>
-          <div class="toggle" :class="{ on: state.excludeWeekends }">
-            <div class="knob"></div>
+          <div
+            class="toggle-field"
+            @click="state.excludeWeekends = !state.excludeWeekends"
+          >
+            <label>仅工作日</label>
+            <div class="toggle" :class="{ on: state.excludeWeekends }">
+              <div class="knob"></div>
+            </div>
           </div>
         </div>
       </div>
@@ -486,33 +482,23 @@ watch(state, () => saveState());
   padding-top: 16px;
 }
 
-.row {
+.config-row {
   display: flex;
-  gap: 12px;
-  margin-bottom: 12px;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 24px;
 }
 
-.field {
+.toggle-field {
   flex: 1;
+  cursor: pointer;
 }
 
-.field label {
+.toggle-field label {
   display: block;
   font-size: 11px;
   color: var(--text-dim);
-  margin-bottom: 4px;
-}
-
-.field input {
-  width: 100%;
-}
-
-.toggle-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  cursor: pointer;
-  font-size: 13px;
+  margin-bottom: 8px;
 }
 
 .toggle {
