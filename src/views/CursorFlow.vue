@@ -241,18 +241,31 @@ watch(state, () => saveState());
       </div>
 
       <div class="config">
-        <div class="config-row">
-          <div class="field">
-            <label>重置日</label>
-            <input type="number" v-model="state.resetDay" min="1" max="31" />
+        <div class="config-grid">
+          <div class="config-item">
+            <div class="item-label">
+              <span class="icon">📅</span>
+              <label>每月重置日</label>
+            </div>
+            <div class="item-control">
+              <input type="number" v-model="state.resetDay" min="1" max="31" />
+              <span class="unit">号</span>
+            </div>
           </div>
           <div
-            class="toggle-field"
+            class="config-item clickable"
             @click="state.excludeWeekends = !state.excludeWeekends"
           >
-            <label>仅工作日</label>
-            <div class="toggle" :class="{ on: state.excludeWeekends }">
-              <div class="knob"></div>
+            <div class="item-label">
+              <span class="icon">{{
+                state.excludeWeekends ? "💼" : "🏕️"
+              }}</span>
+              <label>排除周末</label>
+            </div>
+            <div class="item-control">
+              <div class="toggle" :class="{ on: state.excludeWeekends }">
+                <div class="knob"></div>
+              </div>
             </div>
           </div>
         </div>
@@ -482,23 +495,66 @@ watch(state, () => saveState());
   padding-top: 16px;
 }
 
-.config-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  gap: 24px;
+.config-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
 }
 
-.toggle-field {
-  flex: 1;
+.config-item {
+  background: #f8f8f9;
+  border-radius: 10px;
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border: 1px solid transparent;
+  transition: all 0.2s;
+}
+
+.config-item.clickable {
   cursor: pointer;
 }
 
-.toggle-field label {
-  display: block;
-  font-size: 11px;
+.config-item.clickable:hover {
+  background: #f1f1f4;
+  border-color: var(--border);
+}
+
+.item-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.item-label .icon {
+  font-size: 14px;
+}
+
+.item-label label {
+  font-size: 12px;
+  font-weight: 600;
   color: var(--text-dim);
-  margin-bottom: 8px;
+}
+
+.item-control {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.item-control input {
+  width: 60px;
+  padding: 4px 8px;
+  font-size: 14px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.item-control .unit {
+  font-size: 12px;
+  color: var(--text-dim);
+  font-weight: 500;
 }
 
 .toggle {
