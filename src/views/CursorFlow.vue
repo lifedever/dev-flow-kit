@@ -13,7 +13,7 @@ interface State {
 const state = reactive<State>({
   currentSpend: 0,
   resetDay: 1,
-  totalQuota: 400,
+  totalQuota: 100,
   excludeWeekends: true,
   lastCycleId: "",
 });
@@ -133,14 +133,40 @@ watch(state, () => saveState());
 <template>
   <ToolPage title="Cursor Flow" maxWidth="560px">
     <template #actions>
-      <div class="velocity">
-        <span>{{
-          computedData.status === "fire"
-            ? "🔥"
-            : computedData.status === "ice"
-              ? "❄️"
-              : "⚡"
-        }}</span>
+      <div class="actions-group">
+        <a
+          href="https://cursor.com/cn/dashboard?tab=billing"
+          target="_blank"
+          class="billing-link"
+          title="打开 Cursor 账单页"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            width="16"
+            height="16"
+            stroke="currentColor"
+            stroke-width="2"
+            fill="none"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path
+              d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"
+            ></path>
+            <polyline points="15 3 21 3 21 9"></polyline>
+            <line x1="10" y1="14" x2="21" y2="3"></line>
+          </svg>
+          Billing
+        </a>
+        <div class="velocity">
+          <span>{{
+            computedData.status === "fire"
+              ? "🔥"
+              : computedData.status === "ice"
+                ? "❄️"
+                : "⚡"
+          }}</span>
+        </div>
       </div>
     </template>
 
@@ -155,11 +181,11 @@ watch(state, () => saveState());
       <div class="stats">
         <div class="stat" :class="{ warning: computedData.status === 'fire' }">
           <span class="label">已用</span>
-          <span class="value">${{ state.currentSpend.toFixed(2) }}</span>
+          <span class="value">{{ state.currentSpend.toFixed(1) }}%</span>
         </div>
         <div class="stat">
           <span class="label">理想</span>
-          <span class="value">${{ computedData.idealSpend.toFixed(2) }}</span>
+          <span class="value">{{ computedData.idealSpend.toFixed(1) }}%</span>
         </div>
         <div class="stat">
           <span class="label">剩余天数</span>
@@ -192,9 +218,9 @@ watch(state, () => saveState());
       </div>
 
       <div class="input-section">
-        <label>当前消费 ($)</label>
+        <label>当前用量 (%)</label>
         <div class="input-row">
-          <input type="number" v-model="state.currentSpend" step="0.01" />
+          <input type="number" v-model="state.currentSpend" step="0.1" />
           <div class="quick-btns">
             <button @click="adjustSpend(1)">+1</button>
             <button @click="adjustSpend(5)">+5</button>
@@ -208,10 +234,10 @@ watch(state, () => saveState());
       <div class="advice" :class="computedData.isOver ? 'danger' : ''">
         <strong>{{
           computedData.isOver
-            ? `超支 $${computedData.diff.toFixed(2)}`
-            : `结余 $${computedData.diff.toFixed(2)}`
+            ? `超支 ${computedData.diff.toFixed(1)}%`
+            : `结余 ${computedData.diff.toFixed(1)}%`
         }}</strong>
-        <span>建议每日预算 ${{ computedData.dailySafe.toFixed(2) }}</span>
+        <span>建议每日用量 {{ computedData.dailySafe.toFixed(2) }}%</span>
       </div>
 
       <div class="config">
@@ -221,7 +247,7 @@ watch(state, () => saveState());
             <input type="number" v-model="state.resetDay" min="1" max="31" />
           </div>
           <div class="field">
-            <label>月总额 ($)</label>
+            <label>月总额 (%)</label>
             <input type="number" v-model="state.totalQuota" />
           </div>
         </div>
@@ -255,6 +281,31 @@ watch(state, () => saveState());
   background: #f4f4f5;
   padding: 4px 10px;
   border-radius: 6px;
+}
+
+.actions-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.billing-link {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-dim);
+  text-decoration: none;
+  padding: 4px 8px;
+  background: #f4f4f5;
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+
+.billing-link:hover {
+  background: #e4e4e7;
+  color: var(--text);
 }
 
 .velocity {
