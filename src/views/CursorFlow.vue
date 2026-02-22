@@ -51,6 +51,9 @@ const countDays = (start: Date, end: Date, excludeWeekends: boolean) => {
 
 const computedData = computed(() => {
   const now = new Date();
+  // 消除时分秒对日期计算的影响
+  now.setHours(0, 0, 0, 0);
+
   const year = now.getFullYear();
   const month = now.getMonth();
 
@@ -65,11 +68,8 @@ const computedData = computed(() => {
   const totalWorkDays = countDays(start, end, state.excludeWeekends);
   const daysPassed = countDays(start, now, state.excludeWeekends);
   const tomorrow = new Date(now.getTime() + 86400000);
-  const remainingDays = countDays(
-    tomorrow > end ? end : tomorrow,
-    end,
-    state.excludeWeekends,
-  );
+  const remainingDays =
+    tomorrow > end ? 0 : countDays(tomorrow, end, state.excludeWeekends);
 
   const cycleProgress = totalWorkDays > 0 ? daysPassed / totalWorkDays : 0;
   const idealSpend = state.totalQuota * cycleProgress;
